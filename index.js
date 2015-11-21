@@ -76,13 +76,22 @@ keystone.Email.prototype.send = function (options, callback) {
 				to: message.to.map(function (to) {
 					return buildAddress(to.email, to.name)
 				}).join(', '),
-				cc: message.cc.map(function (cc) {
-					return buildAddress(cc.email, cc.name)
-				}).join(', '),
 				subject: message.subject,
 				html: message.html,
 				attachments: attachments
 			};
+
+			if(message.cc){
+				mail.cc = message.cc.map(function (cc) {
+					return buildAddress(cc.email, cc.name)
+				}).join(', ');
+			}
+
+			if(message.cci){
+				mail.cci = message.cci.map(function (cci) {
+					return buildAddress(cci.email, cci.name)
+				}).join(', ');
+			}
 
 			if (options.sendPlainText) {
 				if (typeof options.sendPlainText === 'object') {
